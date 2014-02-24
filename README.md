@@ -18,7 +18,7 @@ A string value that is used to display the text.
 ### Usage Examples
 
 #### Default Options
-
+```js
 $('input').monthpicker({
 				pattern: 'yyyy-mm',
 				selectedMonth:02,
