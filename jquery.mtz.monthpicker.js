@@ -70,7 +70,9 @@
                         monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                         id: "monthpicker_" + (Math.random() * Math.random()).toString().replace('.', ''),
                         openOnFocus: true,
-                        disabledMonths: []
+                        disabledMonths: [],
+						clear:false,
+						clearText:'clear'
                     }, options);
 
                 settings.dateSeparator = settings.pattern.replace(/(mmm|mm|m|yyyy|yy|y)/ig,'');
@@ -97,6 +99,10 @@
                         $this.monthpicker('setValue', settings);
                         $this.monthpicker('hide');
                     });
+					//clear input value
+                    $this.on('monthpicker-click-clear', function (e) {
+                        $this.monthpicker('hide');
+					});
 
                     // hide widget when user clicks elsewhere on page
                     $this.addClass("mtz-monthpicker-widgetcontainer");
@@ -189,6 +195,7 @@
                 table = $('<table class="mtz-monthpicker" />'),
                 tbody = $('<tbody class="mtz-monthpicker" />'),
                 tr = $('<tr class="mtz-monthpicker" />'),
+                clear = $('<button class="mtz-monthpicker-clear ui-datepicker-buttonclear" >'+settings.clearText+'</button>'),
                 td = '',
                 selectedYear = settings.selectedYear,
                 option = null,
@@ -265,6 +272,15 @@
             });
 
             table.append(tbody).appendTo(container);
+
+			if(settings.clear){
+				//clear value
+				clear.on('click',function(){
+					$(this).siblings('table').find('.ui-state-active').removeClass('ui-state-active');
+					monthpicker.val('').trigger('monthpicker-click-clear');
+				});
+				clear.appendTo(container);
+			}
 
             container.appendTo('body');
         },
